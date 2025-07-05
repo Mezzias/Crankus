@@ -4,135 +4,89 @@
 const supabaseUrl = "https://jeoivdvhdxzqxnbprpim.supabase.co"; // tu URL Supabase
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implb2l2ZHZoZHh6cXhuYnBycGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3MTAxOTMsImV4cCI6MjA2NzI4NjE5M30.xjUuKrJlAYpWN4V98TMuC3In5oAUuoa1Sg5VzmOr_hs"; // tu clave pública
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-const { data, error } = await supabase.from("stats").select("*");
-
-
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 const personajeId = "crankus_001";
+const atributosContainer = document.getElementById("atributos-container");
+const statusEl = document.getElementById("status-message");
 
-let tiposStats = {}; // mapa atributo_id → nombre
+let tiposStats = {};
 
+// Mensaje de estado
 function mostrarEstado(mensaje, tipo = "info") {
-    const statusEl = document.getElementById("status-message");
     statusEl.textContent = mensaje;
-
     statusEl.className = `mt-4 text-center ${
-        tipo === "success"
-            ? "text-green-600"
-            : tipo === "error"
-            ? "text-red-600"
-            : "text-gray-600"
+        tipo === "success" ? "text-green-600" :
+        tipo === "error" ? "text-red-600" : "text-gray-600"
     }`;
 }
 
-// 🔷 Inicializar: generar inputs dinámicos
-async function inicializarFicha() {
-    mostrarEstado("Cargando atributos...", "info");
+// Cargar ficha
+async function cargarFicha() {
+    mostrarEstado("Cargando ficha...");
 
-    const { data: tipos, error } = await supabase
-        .from("tipos_stats")
-        .select("*")
-        .order("id");
-
-    if (error) {
-        mostrarEstado("❌ Error cargando tipos_stats", "error");
-        console.error(error);
+    const { data: tipos, error: errorTipos } = await supabaseClient.from("tipos_stats").select("*");
+    if (errorTipos) {
+        mostrarEstado("Error cargando tipos: " + errorTipos.message, "error");
         return;
     }
 
-    tiposStats = {}; // reinicia el mapa
-    const container = document.getElementById("atributos-container");
-    container.innerHTML = "";
+    tiposStats = {};
+    atributosContainer.innerHTML = "";
 
-    tipos.forEach((stat) => {
-        tiposStats[stat.id] = stat.nombre;
+    for (const tipo of tipos) {
+        tiposStats[tipo.id] = tipo.nombre;
 
         const div = document.createElement("div");
-        const label = document.createElement("label");
-        label.textContent = stat.nombre;
-        label.className = "sheet-label";
+        div.innerHTML = `
+            <label class="sheet-label">${tipo.nombre}</label>
+            <input type="number" id="stat-${tipo.id}" class="sheet-input" value="0">
+        `;
+        atributosContainer.appendChild(div);
+    }
 
-        const input = document.createElement("input");
-        input.type = "number";
-        input.id = `stat-${stat.id}`;
-        input.className = "sheet-input";
-
-        div.appendChild(label);
-        div.appendChild(input);
-        container.appendChild(div);
-    });
-
-    mostrarEstado("✅ Atributos listos", "success");
-}
-
-// 🔷 Cargar datos desde Supabase
-async function cargarFicha() {
-    mostrarEstado("Cargando ficha...", "info");
-
-    const { data: stats, error } = await supabase
+    const { data: stats, error: errorStats } = await supabaseClient
         .from("stats")
         .select("*")
         .eq("personaje_id", personajeId);
 
-    if (error) {
-        mostrarEstado("❌ Error cargando stats", "error");
-        console.error(error);
+    if (errorStats) {
+        mostrarEstado("Error cargando stats: " + errorStats.message, "error");
         return;
     }
 
-    stats.forEach((stat) => {
+    for (const stat of stats) {
         const input = document.getElementById(`stat-${stat.atributo_id}`);
-        if (input) {
-            input.value = stat.total;
-        }
-    });
+        if (input) input.value = stat.total;
+    }
 
-    mostrarEstado("✅ Ficha cargada correctamente", "success");
+    mostrarEstado("Ficha cargada correctamente", "success");
 }
 
-// 🔷 Guardar datos en Supabase
+// Guardar ficha
 async function guardarFicha() {
-    mostrarEstado("Guardando ficha...", "info");
+    mostrarEstado("Guardando ficha...");
 
-    const stats = Object.entries(tiposStats).map(([id, nombre]) => {
-        const input = document.getElementById(`stat-${id}`);
-        return {
-            personaje_id: personajeId,
-            atributo_id: parseInt(id),
-            base: parseInt(input.value) || 0,
-            mundo: 0,
-            profesion: 0,
-            total: parseInt(input.value) || 0,
-            bonos: ""
-        };
-    });
+    const updates = [];
 
-    const { error: delError } = await supabase
-        .from("stats")
-        .delete()
-        .eq("personaje_id", personajeId);
-
-    if (delError) {
-        mostrarEstado("❌ Error eliminando stats anteriores", "error");
-        console.error(delError);
-        return;
+    for (const id in tiposStats) {
+        const valor = parseInt(document.getElementById(`stat-${id}`).value, 10);
+        updates.push({ personaje_id: personajeId, atributo_id: parseInt(id), total: valor });
     }
 
-    const { error: insertError } = await supabase
-        .from("stats")
-        .insert(stats);
-
-    if (insertError) {
-        mostrarEstado("❌ Error guardando ficha", "error");
-        console.error(insertError);
-    } else {
-        mostrarEstado("✅ Ficha guardada correctamente", "success");
+    for (const update of updates) {
+        const { error } = await supabaseClient
+            .from("stats")
+            .upsert(update, { onConflict: ["personaje_id", "atributo_id"] });
+        if (error) {
+            mostrarEstado("Error guardando ficha: " + error.message, "error");
+            return;
+        }
     }
+
+    mostrarEstado("Ficha guardada correctamente", "success");
 }
 
-// 🔷 Ejecutar al cargar la página
-document.addEventListener("DOMContentLoaded", async () => {
-window.cargarFicha = cargarFicha;
-window.guardarFicha = guardarFicha;
-});
+// Botones
+document.getElementById("cargarBtn").addEventListener("click", cargarFicha);
+document.getElementById("guardarBtn").addEventListener("click", guardarFicha);
