@@ -90,3 +90,6 @@ async function guardarFicha() {
 // Botones
 document.getElementById("cargarBtn").addEventListener("click", cargarFicha);
 document.getElementById("guardarBtn").addEventListener("click", guardarFicha);
+window.cargarFicha = cargarFicha;
+window.guardarFicha = guardarFicha;
+console.log("✅ main.js ejecutado y funciones publicadas en window");
