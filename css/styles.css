@@ -141,7 +141,7 @@
 .header-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(60px, 1fr));
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.75rem;
   background-color: rgb(243, 244, 246);
   text-align: center;
@@ -151,6 +151,8 @@
 .header-cell {
   border: 1px solid rgb(209, 213, 219);
   padding: 0.25rem 0;
+  min-width: 55px;
+  word-break: break-word;
 }
 
 .body-spacing {
@@ -159,8 +161,6 @@
 /* La primera columna de atributos tiene ancho fijo de 55px */
 #atributos-body .cell-dynamic:first-child,
 .atributos .header-cell:first-child {
-  width: 55px;
   min-width: 55px;
-  max-width: 55px;
   word-break: break-word;
 }
