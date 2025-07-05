@@ -5,162 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crankus Ferrus - Ficha de Personaje</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="js/main.js"></script>
-
-<script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manufacturing+Consent&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="js/main.js" defer></script>
 </head>
 
 <body>
-  <div class="character-sheet-container">
-    <h1 class="text-4xl text-center mb-8 text-[#1a1a1a] uppercase tracking-wider" style="font-family: 'Manufacturing Consent', cursive;">
-        Crankus Ferrus
-    </h1>
-    <p class="detail-text mb-8">"La carne es débil. El metal, eterno."</p>
+<div class="character-sheet-container">
+  <h1 class="text-4xl text-center mb-8 uppercase tracking-wider" style="font-family: 'Manufacturing Consent', cursive;">
+    Crankus Ferrus
+  </h1>
 
-    <!-- Sección de Atributos -->
-    <div class="sheet-section">
-        <h2 class="section-title">Atributos</h2>
-        <div class="grid-custom-cols">
-            <div>
-                <label for="movimiento" class="sheet-label">Movimiento</label>
-                <input type="number" id="movimiento" class="sheet-input" value="6">
-            </div>
-            <div>
-                <label for="fuerza" class="sheet-label">Fuerza</label>
-                <input type="number" id="fuerza" class="sheet-input" value="45">
-            </div>
-            <div>
-                <label for="resistencia" class="sheet-label">Resistencia</label>
-                <input type="number" id="resistencia" class="sheet-input" value="50">
-            </div>
-            <div>
-                <label for="iniciativa" class="sheet-label">Iniciativa</label>
-                <input type="number" id="iniciativa" class="sheet-input" value="30">
-            </div>
-            <div>
-                <label for="destreza" class="sheet-label">Destreza</label>
-                <input type="number" id="destreza" class="sheet-input" value="40">
-            </div>
-            <div>
-                <label for="voluntad" class="sheet-label">Voluntad</label>
-                <input type="number" id="voluntad" class="sheet-input" value="55">
-            </div>
-            <div>
-                <label for="inteligencia" class="sheet-label">Inteligencia</label>
-                <input type="number" id="inteligencia" class="sheet-input" value="40">
-            </div>
-            <div>
-                <label for="percepcion" class="sheet-label">Percepción</label>
-                <input type="number" id="percepcion" class="sheet-input" value="35">
-            </div>
-            <div>
-                <label for="carisma" class="sheet-label">Carisma</label>
-                <input type="number" id="carisma" class="sheet-input" value="25">
-            </div>
-            <div>
-                <label for="ha" class="sheet-label">HA (Habilidad de Armas)</label>
-                <input type="number" id="ha" class="sheet-input" value="50">
-            </div>
-            <div>
-                <label for="hp" class="sheet-label">HP (Habilidad de Proyectil)</label>
-                <input type="number" id="hp" class="sheet-input" value="45">
-            </div>
-            <div>
-                <label for="heridas" class="sheet-label">Heridas</label>
-                <input type="text" id="heridas" class="sheet-input" value="10 / 12">
-            </div>
-            <div>
-                <label for="poder" class="sheet-label">Poder</label>
-                <input type="number" id="poder" class="sheet-input" value="8">
-            </div>
-            <div>
-                <label for="fe" class="sheet-label">Fe</label>
-                <input type="number" id="fe" class="sheet-input" value="5">
-            </div>
-            <div>
-                <label for="mana" class="sheet-label">Maná</label>
-                <input type="number" id="mana" class="sheet-input" value="20">
-            </div>
-        </div>
-    </div>
+  <p class="detail-text mb-8 text-center">"La carne es débil. El metal, eterno."</p>
 
-    <!-- Sección de Habilidades -->
-    <div class="sheet-section">
-        <h2 class="section-title">Habilidades</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label for="skills-combat" class="sheet-label">Combate</label>
-                <textarea id="skills-combat" class="sheet-textarea">Armas a Distancia (55), Armas Cuerpo a Cuerpo (60), Liderazgo (50)</textarea>
-            </div>
-            <div>
-                <label for="skills-knowledge" class="sheet-label">Conocimiento</label>
-                <textarea id="skills-knowledge" class="sheet-textarea">Conocimiento Táctico (45), Conocimiento del Imperio (40)</textarea>
-            </div>
-            <div>
-                <label for="skills-social" class="sheet-label">Social</label>
-                <textarea id="skills-social" class="sheet-textarea">Intimidación (40), Carisma (35)</textarea>
-            </div>
-            <div>
-                <label for="skills-misc" class="sheet-label">Varias</label>
-                <textarea id="skills-misc" class="sheet-textarea">Pilotar (30), Supervivencia (35)</textarea>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sección de Implantes -->
-    <div class="sheet-section">
-        <h2 class="section-title">Implantes</h2>
-        <div class="grid grid-cols-1 gap-4">
-            <div>
-                <label for="implantes-ciberneticos" class="sheet-label">Implantes Cibernéticos</label>
-                <textarea id="implantes-ciberneticos" class="sheet-textarea">Brazo biónico con servo-motor (FUE +5), Ojo de augurio (Percepción +10), Regulador de dolor subdérmico.</textarea>
-            </div>
-            <div>
-                <label for="modificaciones-corporales" class="sheet-label">Modificaciones Corporales</label>
-                <textarea id="modificaciones-corporales" class="sheet-textarea">Placas de blindaje subdermal (RES +2), Conexión neural para armas.</textarea>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sección de Inventario -->
-    <div class="sheet-section">
-        <h2 class="section-title">Inventario</h2>
-        <div class="grid grid-cols-1 gap-4">
-            <div>
-                <label for="armas-inventario" class="sheet-label">Armas</label>
-                <textarea id="armas-inventario" class="sheet-textarea">Hacha de Energía, Bólter Pesado (montado en brazo), Pistola Láser de respaldo.</textarea>
-            </div>
-            <div>
-                <label for="equipo-inventario" class="sheet-label">Equipo</label>
-                <textarea id="equipo-inventario" class="sheet-textarea">Raciones de combate (3 días), Kit de reparación de campo, Linterna de mano, Auspex, Comunicador Vox.</textarea>
-            </div>
-            <div>
-                <label for="objetos-especiales" class="sheet-label">Objetos Especiales</label>
-                <textarea id="objetos-especiales" class="sheet-textarea">Amuleto de Hierro (protección contra la disformidad), Datos de misión cifrados.</textarea>
-            </div>
-        </div>
-    </div>
-
-    <p class="detail-text mt-8">El Imperium espera tu servicio.</p>
-    
-    <div class="flex justify-center gap-4 mt-8">
-    <button 
-        onclick="guardarFicha()" 
-        class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">
-        Guardar Ficha
-    </button>
-
-    <button 
-        onclick="cargarFicha()" 
-        class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
-        Cargar Ficha
-    </button>
-    </div>
-    <div id="status-message" class="text-center mt-4 text-sm text-gray-700"></div>
-
+  <!-- Sección de Atributos -->
+  <div class="sheet-section">
+    <h2 class="section-title">Atributos</h2>
+    <div id="atributos-container" class="grid-custom-cols"></div>
   </div>
+
+  <div class="flex justify-center gap-4 mt-8">
+    <button onclick="guardarFicha()" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">
+      Guardar Ficha
+    </button>
+    <button onclick="cargarFicha()" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
+      Cargar Ficha
+    </button>
+  </div>
+
+  <div id="status-message" class="mt-4 text-center text-sm text-gray-700"></div>
+</div>
 </body>
 </html>

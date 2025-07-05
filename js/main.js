@@ -1,60 +1,108 @@
-﻿// 👇 CONFIGURA AQUÍ TU PROYECTO
-const supabaseUrl = "https://jeoivdvhdxzqxnbprpim.supabase.co"; // tu URL Supabase
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implb2l2ZHZoZHh6cXhuYnBycGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3MTAxOTMsImV4cCI6MjA2NzI4NjE5M30.xjUuKrJlAYpWN4V98TMuC3In5oAUuoa1Sg5VzmOr_hs"; // tu clave pública
+﻿const supabaseUrl = "https://TU-PROYECTO.supabase.co"; // ⚠️ pon aquí tu URL de Supabase
+const supabaseKey = "TU-API-KEY-PUBLICA"; // ⚠️ pon aquí tu clave pública
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 const personajeId = "crankus_ferrus";
 
-// Mapeo de atributo_id (DB) a campo HTML
-const atributosMap = {
-    1: "movimiento",
-    2: "fuerza",
-    3: "resistencia",
-    4: "iniciativa",
-    5: "destreza",
-    6: "voluntad",
-    7: "inteligencia",
-    8: "percepcion",
-    9: "carisma",
-    10: "ha",
-    11: "hp",
-    12: "heridas",
-    13: "poder",
-    14: "fe",
-    15: "mana"
-};
+let tiposStats = {}; // mapa atributo_id → nombre
 
-// Mostrar estado en la página
+// Mostrar estado en pantalla
 function mostrarEstado(mensaje, tipo = "info") {
     const statusEl = document.getElementById("status-message");
     statusEl.textContent = mensaje;
 
-    switch (tipo) {
-        case "success":
-            statusEl.className = "text-center mt-4 text-green-600";
-            break;
-        case "error":
-            statusEl.className = "text-center mt-4 text-red-600";
-            break;
-        default:
-            statusEl.className = "text-center mt-4 text-gray-600";
-    }
+    statusEl.className = `mt-4 text-center ${
+        tipo === "success"
+            ? "text-green-600"
+            : tipo === "error"
+            ? "text-red-600"
+            : "text-gray-600"
+    }`;
 }
 
-// Guardar ficha
+// 🔷 Inicializar: generar inputs dinámicos
+async function inicializarFicha() {
+    mostrarEstado("Cargando atributos...", "info");
+
+    const { data: tipos, error } = await supabase
+        .from("tipos_stats")
+        .select("*")
+        .order("id");
+
+    if (error) {
+        mostrarEstado("❌ Error cargando tipos_stats", "error");
+        console.error(error);
+        return;
+    }
+
+    tiposStats = {}; // reinicia el mapa
+    const container = document.getElementById("atributos-container");
+    container.innerHTML = "";
+
+    tipos.forEach((stat) => {
+        tiposStats[stat.id] = stat.nombre;
+
+        const div = document.createElement("div");
+        const label = document.createElement("label");
+        label.textContent = stat.nombre;
+        label.className = "sheet-label";
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.id = `stat-${stat.id}`;
+        input.className = "sheet-input";
+
+        div.appendChild(label);
+        div.appendChild(input);
+        container.appendChild(div);
+    });
+
+    mostrarEstado("✅ Atributos listos", "success");
+}
+
+// 🔷 Cargar datos desde Supabase
+async function cargarFicha() {
+    mostrarEstado("Cargando ficha...", "info");
+
+    const { data: stats, error } = await supabase
+        .from("stats")
+        .select("*")
+        .eq("personaje_id", personajeId);
+
+    if (error) {
+        mostrarEstado("❌ Error cargando stats", "error");
+        console.error(error);
+        return;
+    }
+
+    stats.forEach((stat) => {
+        const input = document.getElementById(`stat-${stat.atributo_id}`);
+        if (input) {
+            input.value = stat.total;
+        }
+    });
+
+    mostrarEstado("✅ Ficha cargada correctamente", "success");
+}
+
+// 🔷 Guardar datos en Supabase
 async function guardarFicha() {
-    mostrarEstado("Guardando...", "info");
+    mostrarEstado("Guardando ficha...", "info");
 
-    const stats = Object.entries(atributosMap).map(([id, htmlId]) => ({
-        personaje_id: personajeId,
-        atributo_id: parseInt(id),
-        base: document.getElementById(htmlId).value,
-        mundo: 0,
-        profesion: 0,
-        total: document.getElementById(htmlId).value,
-        bonos: ""
-    }));
+    const stats = Object.entries(tiposStats).map(([id, nombre]) => {
+        const input = document.getElementById(`stat-${id}`);
+        return {
+            personaje_id: personajeId,
+            atributo_id: parseInt(id),
+            base: parseInt(input.value) || 0,
+            mundo: 0,
+            profesion: 0,
+            total: parseInt(input.value) || 0,
+            bonos: ""
+        };
+    });
 
+    // borra anteriores
     const { error: delError } = await supabase
         .from("stats")
         .delete()
@@ -78,27 +126,7 @@ async function guardarFicha() {
     }
 }
 
-// Cargar ficha
-async function cargarFicha() {
-    mostrarEstado("Cargando...", "info");
-
-    const { data: stats, error } = await supabase
-        .from("stats")
-        .select("*")
-        .eq("personaje_id", personajeId);
-
-    if (error) {
-        mostrarEstado("❌ Error cargando ficha", "error");
-        console.error(error);
-        return;
-    }
-
-    stats.forEach(stat => {
-        const htmlId = atributosMap[stat.atributo_id];
-        if (htmlId) {
-            document.getElementById(htmlId).value = stat.base;
-        }
-    });
-
-    mostrarEstado("✅ Ficha cargada correctamente", "success");
-}
+// 🔷 Ejecutar al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    inicializarFicha();
+});
