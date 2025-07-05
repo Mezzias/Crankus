@@ -140,13 +140,11 @@
 
 .header-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(60px, 1fr));
+  grid-template-columns: repeat(5, minmax(40px, 1fr));
   font-weight: 500;
   font-size: 0.75rem;
-  background-color: rgb(243, 244, 246);
   text-align: center;
-  border: 1px solid rgb(209, 213, 219);
-}
+  }
 
 .header-cell {
   border: 1px solid rgb(209, 213, 219);
