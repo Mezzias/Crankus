@@ -76,6 +76,68 @@ async function cargarFicha() {
 
     mostrarEstado("Ficha cargada correctamente", "success");
 }
+async function cargarHabilidades() {
+    console.log("📥 Cargando habilidades…");
+
+    mostrarEstado("Cargando habilidades…");
+
+    const primBody = document.getElementById("habilidades-primarias-body");
+    const secBody = document.getElementById("habilidades-secundarias-body");
+    primBody.innerHTML = "";
+    secBody.innerHTML = "";
+
+    // Primarias
+    const { data: primarias, error: errorPrim } = await supabase
+        .from("habilidades_primarias")
+        .select("*")
+        .eq("personaje_id", personajeId);
+
+    if (errorPrim) {
+        mostrarEstado("Error cargando primarias: " + errorPrim.message, "error");
+        return;
+    }
+
+    for (const hab of primarias) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td class="border px-2 py-1">${hab.habilidad}</td>
+            <td class="border px-2 py-1">
+                <input type="number" id="primaria-nivel-${hab.id}" class="w-16 border" value="${hab.nivel || 0}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="text" id="primaria-bonus-${hab.id}" class="w-24 border" value="${hab.bonus || ""}">
+            </td>
+        `;
+        primBody.appendChild(tr);
+    }
+
+    // Secundarias
+    const { data: secundarias, error: errorSec } = await supabase
+        .from("habilidades_secundarias")
+        .select("*")
+        .eq("personaje_id", personajeId);
+
+    if (errorSec) {
+        mostrarEstado("Error cargando secundarias: " + errorSec.message, "error");
+        return;
+    }
+
+    for (const hab of secundarias) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td class="border px-2 py-1">${hab.habilidad}</td>
+            <td class="border px-2 py-1">
+                <input type="number" id="secundaria-nivel-${hab.id}" class="w-16 border" value="${hab.nivel || 0}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="text" id="secundaria-bonus-${hab.id}" class="w-24 border" value="${hab.bonus || ""}">
+            </td>
+        `;
+        secBody.appendChild(tr);
+    }
+
+    mostrarEstado("Habilidades cargadas correctamente", "success");
+}
 
 async function guardarFicha() {
     console.log("💾 Guardando ficha…");
@@ -101,5 +163,7 @@ async function guardarFicha() {
     mostrarEstado("Ficha guardada correctamente", "success");
 }
 
-document.getElementById("cargarBtn").addEventListener("click", cargarFicha);
+document.getElementById("cargarBtn").addEventListener("click", () => {
+    cargarFicha();
+    cargarHabilidades();
 document.getElementById("guardarBtn").addEventListener("click", guardarFicha);
