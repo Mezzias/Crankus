@@ -133,6 +133,6 @@ async function guardarFicha() {
 
 // 🔷 Ejecutar al cargar la página
 document.addEventListener("DOMContentLoaded", async () => {
-    await inicializarFicha();  // primero genera los inputs
-    await cargarFicha();       // después carga los valores
+window.cargarFicha = cargarFicha;
+window.guardarFicha = guardarFicha;
 });
