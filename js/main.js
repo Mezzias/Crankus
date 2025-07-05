@@ -2,7 +2,7 @@
 // 👇 CONFIGURA AQUÍ TU PROYECTO
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 import { FichaPage } from "./pages/fichaPage.js";
-import { rowFactory } from '../components/rowFactory.js';
+
 
 console.log("✅ main.js cargado y módulo ESM importado");
 

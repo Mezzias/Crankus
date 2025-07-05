@@ -107,7 +107,7 @@ export class FichaPage {
 
     data.forEach((row, idx) => {
       const datosFila = transform(row);
-      const tr = RowFactory.createRow(datosFila, columns, idx);
+      const tr = rowFactory(datosFila, columns, idx);
       tbody.appendChild(tr);
     });
   }
