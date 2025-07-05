@@ -166,4 +166,5 @@ async function guardarFicha() {
 document.getElementById("cargarBtn").addEventListener("click", () => {
     cargarFicha();
     cargarHabilidades();
+});
 document.getElementById("guardarBtn").addEventListener("click", guardarFicha);
