@@ -1,4 +1,4 @@
-import { rowFactory } from '../components/rowFactory.js';
+import { rowFactory } from "../components/rowFactory.js";
 
 export class FichaPage {
   constructor(supabase, personajeId) {
