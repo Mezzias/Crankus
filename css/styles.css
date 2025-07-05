@@ -159,3 +159,7 @@
 .body-spacing {
   @apply space-y-0.5;
 }
+.header-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(60px, 1fr));
+}

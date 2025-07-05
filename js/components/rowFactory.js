@@ -27,4 +27,3 @@ export function rowFactory(rowData, columns, rowIndex = 0) {
 
   return row;
 }
-º
