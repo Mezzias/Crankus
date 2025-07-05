@@ -8,17 +8,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manufacturing+Consent&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 
-<!-- NO cargues supabase aquí -->
 <script type="module" src="js/main.js"></script>
 </head>
 
 <body>
 <div class="character-sheet-container">
-  <h1>Crankus Ferrus</h1>
-  <button id="cargarBtn">Cargar Ficha</button>
-  <button id="guardarBtn">Guardar Ficha</button>
-  <div id="atributos-container"></div>
-  <div id="status-message"></div>
+  <h1 class="text-4xl text-center mb-8 uppercase tracking-wider" style="font-family: 'Manufacturing Consent', cursive;">
+    Crankus Ferrus
+  </h1>
+
+  <p class="detail-text mb-8 text-center">"La carne es débil. El metal, eterno."</p>
+
+  <!-- Sección de Atributos -->
+  <div class="sheet-section">
+    <h2 class="section-title">Atributos</h2>
+    <div id="atributos-container" class="grid-custom-cols"></div>
+  </div>
+
+  <div class="flex justify-center gap-4 mt-8">
+    <button id="guardarBtn" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">
+      Guardar Ficha
+    </button>
+    <button id="cargarBtn" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
+      Cargar Ficha
+    </button>
+  </div>
+
+  <div id="status-message" class="mt-4 text-center text-sm text-gray-700"></div>
 </div>
 </body>
 </html>
