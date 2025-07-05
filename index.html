@@ -24,18 +24,14 @@
 <section class="sheet-section mb-6">
   <h2 class="section-title text-lg sm:text-xl mb-2">Atributos</h2>
   <div class="overflow-x-auto">
-    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Tipo</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Base</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Mundo</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Profesión</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Total</th>
-        </tr>
-      </thead>
-      <tbody id="atributos-body"></tbody>
-    </table>
+    <div class="grid grid-cols-5 gap-1 bg-gray-100 text-xs sm:text-sm font-semibold text-center mb-1">
+      <div>Tipo</div>
+      <div>Base</div>
+      <div>Mundo</div>
+      <div>Profesión</div>
+      <div>Total</div>
+    </div>
+    <div id="atributos-body" class="space-y-1"></div>
   </div>
 </section>
 
@@ -46,32 +42,24 @@
   <div class="mb-4">
     <h3 class="text-base sm:text-lg font-semibold mb-1">Primarias</h3>
     <div class="overflow-x-auto">
-      <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Habilidad</th>
-            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Nivel</th>
-            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Bonus</th>
-          </tr>
-        </thead>
-        <tbody id="habilidades-primarias-body"></tbody>
-      </table>
+      <div class="grid grid-cols-3 gap-1 bg-gray-100 text-xs sm:text-sm font-semibold text-center mb-1">
+        <div>Habilidad</div>
+        <div>Nivel</div>
+        <div>Bonus</div>
+      </div>
+      <div id="habilidades-primarias-body" class="space-y-1"></div>
     </div>
   </div>
 
   <div>
     <h3 class="text-base sm:text-lg font-semibold mb-1">Secundarias</h3>
     <div class="overflow-x-auto">
-      <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Habilidad</th>
-            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Nivel</th>
-            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Bonus</th>
-          </tr>
-        </thead>
-        <tbody id="habilidades-secundarias-body"></tbody>
-      </table>
+      <div class="grid grid-cols-3 gap-1 bg-gray-100 text-xs sm:text-sm font-semibold text-center mb-1">
+        <div>Habilidad</div>
+        <div>Nivel</div>
+        <div>Bonus</div>
+      </div>
+      <div id="habilidades-secundarias-body" class="space-y-1"></div>
     </div>
   </div>
 </section>
@@ -81,17 +69,13 @@
   <h2 class="section-title text-lg sm:text-xl mb-2">Implantes</h2>
 
   <div class="overflow-x-auto">
-    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Implante</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Dificultad</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Datos Extra</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Capacidades Extra</th>
-        </tr>
-      </thead>
-      <tbody id="implantes-body"></tbody>
-    </table>
+    <div class="grid grid-cols-4 gap-1 bg-gray-100 text-xs sm:text-sm font-semibold text-center mb-1">
+      <div>Implante</div>
+      <div>Dificultad</div>
+      <div>Datos Extra</div>
+      <div>Capacidades Extra</div>
+    </div>
+    <div id="implantes-body" class="space-y-1"></div>
   </div>
 </section>
 
@@ -100,17 +84,13 @@
   <h2 class="section-title text-lg sm:text-xl mb-2">Experiencia Gastada</h2>
 
   <div class="overflow-x-auto">
-    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Habilidad</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Tipo</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Nivel</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Experiencia</th>
-        </tr>
-      </thead>
-      <tbody id="experiencia-body"></tbody>
-    </table>
+    <div class="grid grid-cols-4 gap-1 bg-gray-100 text-xs sm:text-sm font-semibold text-center mb-1">
+      <div>Habilidad</div>
+      <div>Tipo</div>
+      <div>Nivel</div>
+      <div>Experiencia</div>
+    </div>
+    <div id="experiencia-body" class="space-y-1"></div>
   </div>
 </section>
 
@@ -119,19 +99,16 @@
   <h2 class="section-title text-lg sm:text-xl mb-2">Inventario</h2>
 
   <div class="overflow-x-auto">
-    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Item</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Cantidad</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Peso</th>
-          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Descripción</th>
-        </tr>
-      </thead>
-      <tbody id="inventario-body"></tbody>
-    </table>
+    <div class="grid grid-cols-4 gap-1 bg-gray-100 text-xs sm:text-sm font-semibold text-center mb-1">
+      <div>Item</div>
+      <div>Cantidad</div>
+      <div>Peso</div>
+      <div>Descripción</div>
+    </div>
+    <div id="inventario-body" class="space-y-1"></div>
   </div>
 </section>
+
 <!-- Botones -->
   <div class="flex justify-center gap-4 mt-8">
     <button id="guardarBtn" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">

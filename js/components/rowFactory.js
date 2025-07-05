@@ -1,37 +1,38 @@
-export class RowFactory {
-  /**
-   * Genera un <tr> dinámico para una tabla.
-   *
-   * @param {Object} rowData - Datos de la fila
-   * @param {Array<Object>} columns - Definición de columnas
-   * @param {number} [rowIndex]
-   * @returns {HTMLTableRowElement}
-   */
-  static createRow(rowData, columns, rowIndex = 0) {
-    const tr = document.createElement("tr");
+/**
+ * Genera una fila dinámica como una malla de divs en vez de <tr>/<td>.
+ *
+ * @param {Object} rowData - Datos de la fila
+ * @param {Array<Object>} columns - Definición de columnas
+ * @param {number} [rowIndex]
+ * @returns {HTMLDivElement} - La fila construida
+ */
+export function rowFactory(rowData, columns, rowIndex = 0) {
+  const row = document.createElement("div");
+  row.className = "grid grid-cols-" + columns.length + " gap-1 text-xs sm:text-sm py-0.5";
 
-    columns.forEach(col => {
-      const td = document.createElement("td");
-      td.className = "border px-2 py-1 text-xs sm:text-sm text-center";
+  columns.forEach(col => {
+    const cell = document.createElement("div");
+    cell.className = "border px-1 py-0.5 text-center";
 
-      const value = rowData[col.key] ?? "";
+    const value = rowData[col.key] ?? "";
 
-      if (col.editable) {
-        const input = document.createElement("input");
-        input.type = "number";
-        input.value = value;
-        input.className =
-          "w-[2ch] border text-center px-0.5 py-0.5 text-xs";
-        input.dataset.row = rowIndex;
-        input.dataset.key = col.key;
-        td.appendChild(input);
-      } else {
-        td.textContent = value;
-      }
+    if (col.editable) {
+      // Editable div para manejar un solo dígito
+      const editable = document.createElement("div");
+      editable.contentEditable = true;
+      editable.textContent = value;
+      editable.className =
+        "inline-block w-[2ch] border text-center px-0.5 py-0.5 text-xs bg-white";
+      editable.dataset.row = rowIndex;
+      editable.dataset.key = col.key;
 
-      tr.appendChild(td);
-    });
+      cell.appendChild(editable);
+    } else {
+      cell.textContent = value;
+    }
 
-    return tr;
-  }
+    row.appendChild(cell);
+  });
+
+  return row;
 }
