@@ -21,7 +21,7 @@ export class RowFactory {
         input.type = "number";
         input.value = value;
         input.className =
-          "w-8 sm:w-10 border text-center px-0.5 py-0.5 text-xs";
+          "w-[2ch] border text-center px-0.5 py-0.5 text-xs";
         input.dataset.row = rowIndex;
         input.dataset.key = col.key;
         td.appendChild(input);
