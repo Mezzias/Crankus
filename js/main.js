@@ -25,43 +25,53 @@ async function cargarFicha() {
     console.log("📥 Cargando ficha…");
     mostrarEstado("Cargando ficha…");
 
-    const { data: tipos, error: errorTipos } = await supabase.from("tipos_stats").select("*");
-    console.log("🎯 tipos_stats:", tipos, errorTipos);
-
+    // Recuperar tipos de stats
+    const { data: tipos, error: errorTipos } = await supabase
+        .from("tipos_stats")
+        .select("*");
     if (errorTipos) {
         mostrarEstado("Error cargando tipos: " + errorTipos.message, "error");
         return;
     }
 
-    tiposStats = {};
-    atributosContainer.innerHTML = "";
-
+    const tiposMap = {};
     for (const tipo of tipos) {
-        tiposStats[tipo.id] = tipo.nombre;
-
-        const div = document.createElement("div");
-        div.innerHTML = `
-            <label>${tipo.nombre}</label>
-            <input type="number" id="stat-${tipo.id}" value="0">
-        `;
-        atributosContainer.appendChild(div);
+        tiposMap[tipo.id] = tipo.nombre;
     }
 
+    // Recuperar stats del personaje
     const { data: stats, error: errorStats } = await supabase
         .from("stats")
         .select("*")
         .eq("personaje_id", personajeId);
-
-    console.log("🎯 stats:", stats, errorStats);
 
     if (errorStats) {
         mostrarEstado("Error cargando stats: " + errorStats.message, "error");
         return;
     }
 
+    const tbody = document.getElementById("atributos-body");
+    tbody.innerHTML = "";
+
     for (const stat of stats) {
-        const input = document.getElementById(`stat-${stat.atributo_id}`);
-        if (input) input.value = stat.total;
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td class="border px-2 py-1">${tiposMap[stat.atributo_id]}</td>
+            <td class="border px-2 py-1">
+                <input type="number" id="base-${stat.atributo_id}" class="w-16 border" value="${stat.base}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="mundo-${stat.atributo_id}" class="w-16 border" value="${stat.mundo}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="profesion-${stat.atributo_id}" class="w-16 border" value="${stat.profesion}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="total-${stat.atributo_id}" class="w-16 border" value="${stat.total}">
+            </td>
+        `;
+        tbody.appendChild(tr);
     }
 
     mostrarEstado("Ficha cargada correctamente", "success");
