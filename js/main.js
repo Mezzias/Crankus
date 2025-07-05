@@ -1,12 +1,12 @@
-﻿const supabaseUrl = "https://TU-PROYECTO.supabase.co"; // ⚠️ pon aquí tu URL de Supabase
-const supabaseKey = "TU-API-KEY-PUBLICA"; // ⚠️ pon aquí tu clave pública
+﻿// 👇 CONFIGURA AQUÍ TU PROYECTO
+const supabaseUrl = "https://jeoivdvhdxzqxnbprpim.supabase.co"; // tu URL Supabase
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implb2l2ZHZoZHh6cXhuYnBycGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE3MTAxOTMsImV4cCI6MjA2NzI4NjE5M30.xjUuKrJlAYpWN4V98TMuC3In5oAUuoa1Sg5VzmOr_hs"; // tu clave pública
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-const personajeId = "crankus_ferrus";
+const personajeId = "crankus_001";
 
 let tiposStats = {}; // mapa atributo_id → nombre
 
-// Mostrar estado en pantalla
 function mostrarEstado(mensaje, tipo = "info") {
     const statusEl = document.getElementById("status-message");
     statusEl.textContent = mensaje;
@@ -102,7 +102,6 @@ async function guardarFicha() {
         };
     });
 
-    // borra anteriores
     const { error: delError } = await supabase
         .from("stats")
         .delete()
@@ -127,6 +126,7 @@ async function guardarFicha() {
 }
 
 // 🔷 Ejecutar al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-    inicializarFicha();
+document.addEventListener("DOMContentLoaded", async () => {
+    await inicializarFicha();  // primero genera los inputs
+    await cargarFicha();       // después carga los valores
 });
