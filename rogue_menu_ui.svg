@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="412" height="915" viewBox="0 0 412 915">
+  <rect width="412" height="915" fill="#0e1212" />
+
+  <!-- Header -->
+  <rect x="0" y="0" width="412" height="64" fill="#1e2222" />
+  <rect x="0" y="62" width="412" height="2" fill="#e3c547" />
+  <text x="206" y="40" text-anchor="middle" fill="#5aff5a" font-family="Orbitron, sans-serif" font-size="20">MENÚ PRINCIPAL</text>
+
+  <!-- Buttons -->
+  <g font-family="Orbitron, sans-serif" font-size="18" text-anchor="middle" fill="#5aff5a">
+    <g>
+      <rect x="26" y="100" width="360" height="56" fill="#1e2222" stroke="#e3c547" stroke-width="2" />
+      <text x="206" y="135">1. INVENTARIO</text>
+    </g>
+    <g>
+      <rect x="26" y="168" width="360" height="56" fill="#1e2222" stroke="#e3c547" stroke-width="2" />
+      <text x="206" y="203">2. ESTADÍSTICAS</text>
+    </g>
+    <g>
+      <rect x="26" y="236" width="360" height="56" fill="#1e2222" stroke="#e3c547" stroke-width="2" />
+      <text x="206" y="271">3. EQUIPAMIENTO</text>
+    </g>
+    <g>
+      <rect x="26" y="304" width="360" height="56" fill="#1e2222" stroke="#e3c547" stroke-width="2" />
+      <text x="206" y="339">4. MISIONES</text>
+    </g>
+    <g>
+      <rect x="26" y="372" width="360" height="56" fill="#1e2222" stroke="#e3c547" stroke-width="2" />
+      <text x="206" y="407">5. SALIR</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <text x="206" y="900" text-anchor="middle" fill="#cfcfcf" font-family="Rajdhani, sans-serif" font-size="12">Rogue UI Prototype v1.0</text>
+</svg>
