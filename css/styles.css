@@ -156,3 +156,11 @@
 .body-spacing {
   margin-top: 0.125rem;
 }
+/* La primera columna de atributos tiene ancho fijo de 55px */
+#atributos-body .cell-dynamic:first-child,
+.atributos .header-cell:first-child {
+  width: 55px;
+  min-width: 55px;
+  max-width: 55px;
+  word-break: break-word;
+}
