@@ -103,3 +103,59 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* Fila dinámica tipo grid */
+.row-dynamic {
+  display: grid;
+  gap: 0.25rem; /* ~gap-1 */
+  font-size: 0.75rem; /* text-xs */
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .row-dynamic {
+    font-size: 0.875rem; /* text-sm */
+  }
+}
+
+/* Celda dentro de la fila */
+.cell-dynamic {
+  border: 1px solid rgb(209, 213, 219); /* border-gray-300 */
+  padding: 0.125rem 0.25rem; /* py-0.5 px-1 */
+  background-color: white;
+}
+
+/* Cabecera de tabla */
+.header-dynamic {
+  font-weight: 600;
+  background-color: rgb(243, 244, 246); /* bg-gray-100 */
+}
+
+/* Input editable */
+.input-dynamic {
+  text-align: center;
+  width: 1.5rem;
+  padding: 0.125rem;
+  font-size: 0.75rem;
+  background-color: white;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 0.125rem;
+}
+
+@media (min-width: 640px) {
+  .input-dynamic {
+    width: 2rem;
+    font-size: 0.875rem;
+  }
+}
+.header-grid {
+  @apply bg-gray-100 text-xs sm:text-sm font-semibold text-center border border-gray-300;
+}
+
+.header-cell {
+  @apply border border-gray-300 py-1;
+}
+
+.body-spacing {
+  @apply space-y-0.5;
+}
