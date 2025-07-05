@@ -1,5 +1,5 @@
 /**
- * Genera una fila dinámica como una malla de divs en vez de <tr>/<td>.
+ * Genera una fila dinámica como una malla de divs.
  *
  * @param {Object} rowData - Datos de la fila
  * @param {Array<Object>} columns - Definición de columnas
@@ -8,25 +8,29 @@
  */
 export function rowFactory(rowData, columns, rowIndex = 0) {
   const row = document.createElement("div");
-  row.className = "grid grid-cols-" + columns.length + " gap-1 text-xs sm:text-sm py-0.5";
+  row.className = `grid grid-cols-${columns.length} text-xs sm:text-sm text-center`;
 
   columns.forEach(col => {
     const cell = document.createElement("div");
-    cell.className = "border px-1 py-0.5 text-center";
+    cell.className = "border border-gray-300 py-0.5 px-1";
 
     const value = rowData[col.key] ?? "";
 
     if (col.editable) {
-      // Editable div para manejar un solo dígito
-      const editable = document.createElement("div");
-      editable.contentEditable = true;
-      editable.textContent = value;
-      editable.className =
-        "inline-block w-[2ch] border text-center px-0.5 py-0.5 text-xs bg-white";
-      editable.dataset.row = rowIndex;
-      editable.dataset.key = col.key;
+      // Editable input para un solo dígito
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = value;
+      input.className =
+        "text-center w-6 sm:w-8 px-0.5 py-0.5 text-xs border border-gray-300 bg-white";
+      input.dataset.row = rowIndex;
+      input.dataset.key = col.key;
 
-      cell.appendChild(editable);
+      // limitar a un dígito visual
+      input.maxLength = 1;
+      input.style.width = "2ch";
+
+      cell.appendChild(input);
     } else {
       cell.textContent = value;
     }
