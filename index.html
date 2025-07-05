@@ -7,6 +7,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="js/main.js"></script>
+
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Manufacturing+Consent&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
@@ -144,6 +145,22 @@
     </div>
 
     <p class="detail-text mt-8">El Imperium espera tu servicio.</p>
+    
+    <div class="flex justify-center gap-4 mt-8">
+    <button 
+        onclick="guardarFicha()" 
+        class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">
+        Guardar Ficha
+    </button>
+
+    <button 
+        onclick="cargarFicha()" 
+        class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
+        Cargar Ficha
+    </button>
+    </div>
+    <div id="status-message" class="text-center mt-4 text-sm text-gray-700"></div>
+
   </div>
 </body>
 </html>

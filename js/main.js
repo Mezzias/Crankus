@@ -5,57 +5,100 @@ const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 const personajeId = "crankus_ferrus";
 
-console.log("Supabase listo ✅");
+// Mapeo de atributo_id (DB) a campo HTML
+const atributosMap = {
+    1: "movimiento",
+    2: "fuerza",
+    3: "resistencia",
+    4: "iniciativa",
+    5: "destreza",
+    6: "voluntad",
+    7: "inteligencia",
+    8: "percepcion",
+    9: "carisma",
+    10: "ha",
+    11: "hp",
+    12: "heridas",
+    13: "poder",
+    14: "fe",
+    15: "mana"
+};
 
-async function guardarFicha() {
-    const stats = [
-        { atributo_id: 1, base: parseInt(document.getElementById("stat_movimiento").value), total: parseInt(document.getElementById("stat_movimiento").value) },
-        { atributo_id: 2, base: parseInt(document.getElementById("stat_fuerza").value), total: parseInt(document.getElementById("stat_fuerza").value) }
-    ].map(stat => ({ ...stat, personaje_id: personajeId }));
+// Mostrar estado en la página
+function mostrarEstado(mensaje, tipo = "info") {
+    const statusEl = document.getElementById("status-message");
+    statusEl.textContent = mensaje;
 
-    const inventario = [
-        {
-            item: document.getElementById("inv_item").value,
-            cantidad: 1,
-            descripcion: document.getElementById("inv_desc").value,
-            personaje_id: personajeId
-        }
-    ];
-
-    // Borra datos previos
-    await supabase.from("stats").delete().eq("personaje_id", personajeId);
-    await supabase.from("inventario").delete().eq("personaje_id", personajeId);
-
-    const { error: statsError } = await supabase.from("stats").insert(stats);
-    const { error: invError } = await supabase.from("inventario").insert(inventario);
-
-    if (statsError || invError) {
-        alert("❌ Error al guardar ficha");
-        console.error(statsError || invError);
-    } else {
-        alert("✅ Ficha guardada correctamente");
+    switch (tipo) {
+        case "success":
+            statusEl.className = "text-center mt-4 text-green-600";
+            break;
+        case "error":
+            statusEl.className = "text-center mt-4 text-red-600";
+            break;
+        default:
+            statusEl.className = "text-center mt-4 text-gray-600";
     }
 }
 
-async function cargarFicha() {
-    const { data: stats, error: statsError } = await supabase.from("stats").select("*").eq("personaje_id", personajeId);
-    const { data: inventario, error: invError } = await supabase.from("inventario").select("*").eq("personaje_id", personajeId);
+// Guardar ficha
+async function guardarFicha() {
+    mostrarEstado("Guardando...", "info");
 
-    if (statsError || invError) {
-        alert("❌ Error al cargar ficha");
-        console.error(statsError || invError);
+    const stats = Object.entries(atributosMap).map(([id, htmlId]) => ({
+        personaje_id: personajeId,
+        atributo_id: parseInt(id),
+        base: document.getElementById(htmlId).value,
+        mundo: 0,
+        profesion: 0,
+        total: document.getElementById(htmlId).value,
+        bonos: ""
+    }));
+
+    const { error: delError } = await supabase
+        .from("stats")
+        .delete()
+        .eq("personaje_id", personajeId);
+
+    if (delError) {
+        mostrarEstado("❌ Error eliminando stats anteriores", "error");
+        console.error(delError);
+        return;
+    }
+
+    const { error: insertError } = await supabase
+        .from("stats")
+        .insert(stats);
+
+    if (insertError) {
+        mostrarEstado("❌ Error guardando ficha", "error");
+        console.error(insertError);
+    } else {
+        mostrarEstado("✅ Ficha guardada correctamente", "success");
+    }
+}
+
+// Cargar ficha
+async function cargarFicha() {
+    mostrarEstado("Cargando...", "info");
+
+    const { data: stats, error } = await supabase
+        .from("stats")
+        .select("*")
+        .eq("personaje_id", personajeId);
+
+    if (error) {
+        mostrarEstado("❌ Error cargando ficha", "error");
+        console.error(error);
         return;
     }
 
     stats.forEach(stat => {
-        if (stat.atributo_id === 1) document.getElementById("stat_movimiento").value = stat.base;
-        if (stat.atributo_id === 2) document.getElementById("stat_fuerza").value = stat.base;
+        const htmlId = atributosMap[stat.atributo_id];
+        if (htmlId) {
+            document.getElementById(htmlId).value = stat.base;
+        }
     });
 
-    if (inventario.length > 0) {
-        document.getElementById("inv_item").value = inventario[0].item;
-        document.getElementById("inv_desc").value = inventario[0].descripcion;
-    }
-
-    alert("✅ Ficha cargada correctamente");
+    mostrarEstado("✅ Ficha cargada correctamente", "success");
 }
