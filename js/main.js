@@ -21,109 +21,108 @@ const mostrarEstado = (mensaje, tipo = "info") => {
 async function cargarFicha() {
   mostrarEstado("Cargando ficha…");
 
-  // Atributos
-  const { data: stats, error: errorStats } = await supabase
-    .from("stats")
-    .select("*, tipos_stats(nombre)")
+  // 🔷 Atributos
+  await cargarSeccion(
+    "stats",
+    "atributos-body",
+    [
+      { key: "tipo", editable: false },
+      { key: "base", editable: true },
+      { key: "mundo", editable: true },
+      { key: "profesion", editable: true },
+      { key: "total", editable: false }
+    ],
+    row => ({
+      tipo: row.tipos_stats.nombre,
+      base: row.base,
+      mundo: row.mundo,
+      profesion: row.profesion,
+      total: row.total
+    }),
+    "*, tipos_stats(nombre)"
+  );
+
+  // 🔷 Habilidades primarias
+  await cargarSeccion(
+    "habilidades_primarias",
+    "habilidades-primarias-body",
+    [
+      { key: "habilidad", editable: false },
+      { key: "nivel", editable: true },
+      { key: "bonus", editable: true }
+    ]
+  );
+
+  // 🔷 Habilidades secundarias
+  await cargarSeccion(
+    "habilidades_secundarias",
+    "habilidades-secundarias-body",
+    [
+      { key: "habilidad", editable: false },
+      { key: "nivel", editable: true },
+      { key: "bonus", editable: true }
+    ]
+  );
+
+  // 🔷 Implantes
+  await cargarSeccion(
+    "implantes_personaje",
+    "implantes-body",
+    [
+      { key: "implante_tipo", editable: false },
+      { key: "dificultad", editable: false },
+      { key: "datos_extra", editable: true },
+      { key: "capacidades_extra", editable: true }
+    ]
+  );
+
+  // 🔷 Experiencia
+  await cargarSeccion(
+    "gasto_experiencia",
+    "experiencia-body",
+    [
+      { key: "habilidad_id", editable: false },
+      { key: "tipo", editable: false },
+      { key: "nivel", editable: false },
+      { key: "experiencia", editable: false }
+    ]
+  );
+
+  // 🔷 Inventario
+  await cargarSeccion(
+    "inventario",
+    "inventario-body",
+    [
+      { key: "item", editable: false },
+      { key: "cantidad", editable: true },
+      { key: "peso", editable: true },
+      { key: "descripcion", editable: true }
+    ]
+  );
+
+  mostrarEstado("Ficha cargada correctamente", "success");
+}
+
+async function cargarSeccion(tabla, tbodyId, columns, transform = r => r, select = "*") {
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = "";
+
+  const { data, error } = await supabase
+    .from(tabla)
+    .select(select)
     .eq("personaje_id", personajeId);
 
-  if (errorStats) {
-    mostrarEstado("Error cargando atributos: " + errorStats.message, "error");
+  if (error) {
+    mostrarEstado(`Error en ${tabla}: ${error.message}`, "error");
     return;
   }
 
-  const atributosData = stats.map(s => ({
-    tipo: s.tipos_stats.nombre,
-    base: s.base,
-    mundo: s.mundo,
-    profesion: s.profesion,
-    total: s.total
-  }));
+  const filas = data.map((row, idx) => {
+    const datosFila = transform(row);
+    return createRow(datosFila, columns, idx);
+  });
 
-  const atributosColumns = [
-    { key: "tipo", editable: false },
-    { key: "base", editable: true },
-    { key: "mundo", editable: true },
-    { key: "profesion", editable: true },
-    { key: "total", editable: false }
-  ];
-
-  renderRows("atributos-body", atributosData, atributosColumns);
-
-  // Habilidades primarias
-  const { data: primarias } = await supabase
-    .from("habilidades_primarias")
-    .select("*")
-    .eq("personaje_id", personajeId);
-
-  const habilidadesPrimariasColumns = [
-    { key: "habilidad", editable: false },
-    { key: "nivel", editable: true },
-    { key: "bonus", editable: true }
-  ];
-
-  renderRows("habilidades-primarias-body", primarias, habilidadesPrimariasColumns);
-
-  // Habilidades secundarias
-  const { data: secundarias } = await supabase
-    .from("habilidades_secundarias")
-    .select("*")
-    .eq("personaje_id", personajeId);
-
-  const habilidadesSecundariasColumns = [
-    { key: "habilidad", editable: false },
-    { key: "nivel", editable: true },
-    { key: "bonus", editable: true }
-  ];
-
-  renderRows("habilidades-secundarias-body", secundarias, habilidadesSecundariasColumns);
-
-  // Implantes
-  const { data: implantes } = await supabase
-    .from("implantes_personaje")
-    .select("*")
-    .eq("personaje_id", personajeId);
-
-  const implantesColumns = [
-    { key: "implante_tipo", editable: false },
-    { key: "dificultad", editable: false },
-    { key: "datos_extra", editable: true },
-    { key: "capacidades_extra", editable: true }
-  ];
-
-  renderRows("implantes-body", implantes, implantesColumns);
-
-  // Experiencia
-  const { data: experiencia } = await supabase
-    .from("gasto_experiencia")
-    .select("*")
-    .eq("personaje_id", personajeId);
-
-  const experienciaColumns = [
-    { key: "habilidad_id", editable: false },
-    { key: "tipo", editable: false },
-    { key: "nivel", editable: false },
-    { key: "experiencia", editable: false }
-  ];
-
-  renderRows("experiencia-body", experiencia, experienciaColumns);
-
-  // Inventario
-  const { data: inventario } = await supabase
-    .from("inventario")
-    .select("*")
-    .eq("personaje_id", personajeId);
-
-  const inventarioColumns = [
-    { key: "item", editable: false },
-    { key: "cantidad", editable: true },
-    { key: "peso", editable: true },
-    { key: "descripcion", editable: true }
-  ];
-
-  renderRows("inventario-body", inventario, inventarioColumns);
-
-  mostrarEstado("Ficha cargada correctamente", "success");
+  filas.forEach(fila => tbody.appendChild(fila));
 }
 
 document.getElementById("cargarBtn").addEventListener("click", cargarFicha);
