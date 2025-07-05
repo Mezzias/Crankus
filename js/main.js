@@ -139,6 +139,91 @@ async function cargarHabilidades() {
     mostrarEstado("Habilidades cargadas correctamente", "success");
 }
 
+async function cargarExperiencia() {
+    console.log("📥 Cargando experiencia gastada…");
+
+    mostrarEstado("Cargando experiencia…");
+
+    const expBody = document.getElementById("experiencia-body");
+    expBody.innerHTML = "";
+
+    const { data: gastos, error } = await supabase
+        .from("gasto_experiencia")
+        .select("*")
+        .eq("personaje_id", personajeId);
+
+    if (error) {
+        mostrarEstado("Error cargando experiencia: " + error.message, "error");
+        return;
+    }
+
+    for (const gasto of gastos) {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td class="border px-2 py-1">
+                <input type="text" id="gasto-habilidad-${gasto.id}" class="w-48 border" value="${gasto.habilidad_id}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="text" id="gasto-tipo-${gasto.id}" class="w-24 border" value="${gasto.tipo}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="gasto-nivel-${gasto.id}" class="w-16 border" value="${gasto.nivel}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="gasto-exp-${gasto.id}" class="w-20 border" value="${gasto.experiencia}">
+            </td>
+        `;
+        expBody.appendChild(tr);
+    }
+
+    mostrarEstado("Experiencia cargada correctamente", "success");
+}
+async function cargarInventario() {
+    console.log("📥 Cargando inventario…");
+
+    mostrarEstado("Cargando inventario…");
+
+    const invBody = document.getElementById("inventario-body");
+    invBody.innerHTML = "";
+
+    const { data: items, error } = await supabase
+        .from("inventario")
+        .select("*")
+        .eq("personaje_id", personajeId);
+
+    if (error) {
+        mostrarEstado("Error cargando inventario: " + error.message, "error");
+        return;
+    }
+
+    for (const item of items) {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td class="border px-2 py-1">
+                <input type="text" id="item-nombre-${item.id}" class="w-48 border" value="${item.item}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="item-cantidad-${item.id}" class="w-16 border" value="${item.cantidad}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="item-peso-${item.id}" class="w-16 border" value="${item.peso || 0}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="text" id="item-desc-${item.id}" class="w-64 border" value="${item.descripcion || ""}">
+            </td>
+        `;
+        invBody.appendChild(tr);
+    }
+
+    mostrarEstado("Inventario cargado correctamente", "success");
+}
+
+
+
+
+
 async function guardarFicha() {
     console.log("💾 Guardando ficha…");
     mostrarEstado("Guardando ficha…");
@@ -163,8 +248,52 @@ async function guardarFicha() {
     mostrarEstado("Ficha guardada correctamente", "success");
 }
 
+async function cargarImplantes() {
+    console.log("📥 Cargando implantes…");
+
+    mostrarEstado("Cargando implantes…");
+
+    const implantesBody = document.getElementById("implantes-body");
+    implantesBody.innerHTML = "";
+
+    const { data: implantes, error } = await supabase
+        .from("implantes_personaje")
+        .select("*")
+        .eq("personaje_id", personajeId);
+
+    if (error) {
+        mostrarEstado("Error cargando implantes: " + error.message, "error");
+        return;
+    }
+
+    for (const impl of implantes) {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td class="border px-2 py-1">
+                <input type="text" id="implante-tipo-${impl.id}" class="w-32 border" value="${impl.implante_tipo}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="number" id="implante-dificultad-${impl.id}" class="w-16 border" value="${impl.dificultad}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="text" id="implante-datos-${impl.id}" class="w-48 border" value="${impl.datos_extra || ""}">
+            </td>
+            <td class="border px-2 py-1">
+                <input type="text" id="implante-capacidades-${impl.id}" class="w-48 border" value="${impl.capacidades_extra || ""}">
+            </td>
+        `;
+        implantesBody.appendChild(tr);
+    }
+
+    mostrarEstado("Implantes cargados correctamente", "success");
+}
+
 document.getElementById("cargarBtn").addEventListener("click", () => {
     cargarFicha();
     cargarHabilidades();
+    cargarImplantes();
+    cargarExperiencia();
+    cargarInventario();
 });
 document.getElementById("guardarBtn").addEventListener("click", guardarFicha);
