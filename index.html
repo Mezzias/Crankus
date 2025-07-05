@@ -11,133 +11,140 @@
 <script type="module" src="js/main.js"></script>
 </head>
 
-<body>
-<div class="character-sheet-container">
-  <h1 class="text-4xl text-center mb-8 uppercase tracking-wider" style="font-family: 'Manufacturing Consent', cursive;">
+<body class="bg-gray-100 flex justify-center px-2">
+<div class="character-sheet-container bg-white shadow-md rounded-lg p-4 sm:p-6 md:p-8 max-w-screen-lg w-full my-4">
+
+  <h1 class="text-2xl sm:text-4xl text-center mb-6 uppercase tracking-wider font-serif" style="font-family: 'Manufacturing Consent', cursive;">
     Crankus Ferrus
   </h1>
 
-  <p class="detail-text mb-8 text-center">"La carne es débil. El metal, eterno."</p>
+  <p class="detail-text mb-6 text-center text-sm sm:text-base">"La carne es débil. El metal, eterno."</p>
 
-  <!-- Sección de Atributos -->
-    <div class="sheet-section">
-    <h2 class="section-title">Atributos</h2>
-    <div id="atributos-container" class="overflow-x-auto">
-        <table class="min-w-full border border-gray-300">
-        <thead class="bg-gray-100">
-            <tr>
-            <th class="border px-2 py-1">Tipo</th>
-            <th class="border px-2 py-1">Base</th>
-            <th class="border px-2 py-1">Mundo</th>
-            <th class="border px-2 py-1">Profesión</th>
-            <th class="border px-2 py-1">Total</th>
-            </tr>
-        </thead>
-        <tbody id="atributos-body"></tbody>
-        </table>
-    </div>
-    </div>
-    <!-- Sección de Habilidades -->
-    <div class="sheet-section">
-    <h2 class="section-title">Habilidades</h2>
-
-    <div class="mb-6">
-        <h3 class="text-xl font-bold mb-2">Primarias</h3>
-        <div class="overflow-x-auto">
-        <table class="min-w-full border border-gray-300">
-            <thead class="bg-gray-100">
-            <tr>
-                <th class="border px-2 py-1">Habilidad</th>
-                <th class="border px-2 py-1">Nivel</th>
-                <th class="border px-2 py-1">Bonus</th>
-            </tr>
-            </thead>
-            <tbody id="habilidades-primarias-body"></tbody>
-        </table>
-        </div>
-    </div>
-
-    <div>
-        <h3 class="text-xl font-bold mb-2">Secundarias</h3>
-        <div class="overflow-x-auto">
-        <table class="min-w-full border border-gray-300">
-            <thead class="bg-gray-100">
-            <tr>
-                <th class="border px-2 py-1">Habilidad</th>
-                <th class="border px-2 py-1">Nivel</th>
-                <th class="border px-2 py-1">Bonus</th>
-            </tr>
-            </thead>
-            <tbody id="habilidades-secundarias-body"></tbody>
-        </table>
-        </div>
-    </div>
-    </div>
-    <!-- Sección de Implantes -->
-    <div class="sheet-section">
-  <h2 class="section-title">Implantes</h2>
-
+<!-- Sección Atributos -->
+<section class="sheet-section mb-6">
+  <h2 class="section-title text-lg sm:text-xl mb-2">Atributos</h2>
   <div class="overflow-x-auto">
-    <table class="min-w-full border border-gray-300">
+    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
       <thead class="bg-gray-100">
         <tr>
-          <th class="border px-2 py-1">Implante</th>
-          <th class="border px-2 py-1">Dificultad</th>
-          <th class="border px-2 py-1">Datos Extra</th>
-          <th class="border px-2 py-1">Capacidades Extra</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Tipo</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Base</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Mundo</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Profesión</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Total</th>
+        </tr>
+      </thead>
+      <tbody id="atributos-body"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Sección Habilidades -->
+<section class="sheet-section mb-6">
+  <h2 class="section-title text-lg sm:text-xl mb-2">Habilidades</h2>
+
+  <div class="mb-4">
+    <h3 class="text-base sm:text-lg font-semibold mb-1">Primarias</h3>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Habilidad</th>
+            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Nivel</th>
+            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Bonus</th>
+          </tr>
+        </thead>
+        <tbody id="habilidades-primarias-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-base sm:text-lg font-semibold mb-1">Secundarias</h3>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Habilidad</th>
+            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Nivel</th>
+            <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Bonus</th>
+          </tr>
+        </thead>
+        <tbody id="habilidades-secundarias-body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Sección Implantes -->
+<section class="sheet-section mb-6">
+  <h2 class="section-title text-lg sm:text-xl mb-2">Implantes</h2>
+
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Implante</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Dificultad</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Datos Extra</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Capacidades Extra</th>
         </tr>
       </thead>
       <tbody id="implantes-body"></tbody>
     </table>
   </div>
-</div>
+</section>
 
-<div class="sheet-section">
-  <h2 class="section-title">Experiencia Gastada</h2>
+<!-- Sección Experiencia -->
+<section class="sheet-section mb-6">
+  <h2 class="section-title text-lg sm:text-xl mb-2">Experiencia Gastada</h2>
 
   <div class="overflow-x-auto">
-    <table class="min-w-full border border-gray-300">
+    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
       <thead class="bg-gray-100">
         <tr>
-          <th class="border px-2 py-1">Habilidad</th>
-          <th class="border px-2 py-1">Tipo</th>
-          <th class="border px-2 py-1">Nivel</th>
-          <th class="border px-2 py-1">Experiencia</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Habilidad</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Tipo</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Nivel</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Experiencia</th>
         </tr>
       </thead>
       <tbody id="experiencia-body"></tbody>
     </table>
   </div>
-</div>
+</section>
 
-<div class="sheet-section">
-  <h2 class="section-title">Inventario</h2>
+<!-- Sección Inventario -->
+<section class="sheet-section mb-6">
+  <h2 class="section-title text-lg sm:text-xl mb-2">Inventario</h2>
 
   <div class="overflow-x-auto">
-    <table class="min-w-full border border-gray-300">
+    <table class="table-auto w-full text-xs sm:text-sm border border-gray-300">
       <thead class="bg-gray-100">
         <tr>
-          <th class="border px-2 py-1">Item</th>
-          <th class="border px-2 py-1">Cantidad</th>
-          <th class="border px-2 py-1">Peso</th>
-          <th class="border px-2 py-1">Descripción</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Item</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Cantidad</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap text-right">Peso</th>
+          <th class="border px-1 sm:px-2 py-1 whitespace-nowrap">Descripción</th>
         </tr>
       </thead>
       <tbody id="inventario-body"></tbody>
     </table>
   </div>
-</div>
+</section>
+<!-- Botones para guardar y cargar ficha -->
 
-  <div class="flex justify-center gap-4 mt-8">
-    <button id="guardarBtn" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800">
+  <div class="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mt-6">
+    <button id="guardarBtn" class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 w-full sm:w-auto">
       Guardar Ficha
     </button>
-    <button id="cargarBtn" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
+    <button id="cargarBtn" class="px-4 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 w-full sm:w-auto">
       Cargar Ficha
     </button>
   </div>
 
-  <div id="status-message" class="mt-4 text-center text-sm text-gray-700"></div>
+  <div id="status-message" class="mt-4 text-center text-xs sm:text-sm text-gray-700"></div>
+
 </div>
 </body>
 </html>
